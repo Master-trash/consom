@@ -1,0 +1,25 @@
+<div class="container">
+  <header class="jumbotron">
+    <p>{{ content }}</p>
+  </header>
+  <div class="container">
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <table class="table table-striped">
+        <tr> <th>Id</th><th>userName</th> <th>Email</th>  <th>Role</th> </tr>
+        <tbody *ngFor="let user of users">
+        <tr >
+          <td>{{user.id}}</td>
+          <td>{{user.username}}</td>
+          <td>{{user.email}}</td>
+         <td>{{user.roles}}</td>
+         <!--  <td><a class="btn btn-danger" (click)="supprimerProduit(produit)">Supprimer</a></td>
+          <td><a class="btn btn-success" [routerLink]="['/updateProduct',produit.idProduit]">Modifier</a></td> -->
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
