@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.esprit.springjwt.models.Payload;
 import com.esprit.springjwt.models.User;
 import com.esprit.springjwt.security.services.UserDetailsServiceImpl;
 
@@ -51,11 +52,10 @@ public class TestController{
 		return "Admin Board.";
 	}
 	
-//	 @GetMapping("/getUsers")
-//	    public ResponseEntity<List<User>> getAllUser() {
-//	        List<User> user = userDetailsServiceImpl.GetUser();
-//	        return new ResponseEntity<>(user, HttpStatus.OK);
-//	    }
+	 @GetMapping("/User/{id}")
+	    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+	        return new ResponseEntity<>(userDetailsServiceImpl.getUserById(id), HttpStatus.OK);
+	    }
 	 
 	 @GetMapping("/Users")
 		public List <User> ShowUsers(){
@@ -83,8 +83,8 @@ public class TestController{
 	
 	 @PutMapping({"/editByAdmin/{id}"})
 	// @PreAuthorize("hasRole('Admin)")
-	    public  ResponseEntity<User> updateUserAdmin(@PathVariable("id") Long id, @RequestBody User user) {
-	        userDetailsServiceImpl.UpdateUserAdmin(id, user);
+	    public  ResponseEntity<User> updateUserAdmin(@PathVariable("id") Long id, @RequestBody Payload payload) {
+	        userDetailsServiceImpl.UpdateUserAdmin(id, payload.role);
 	        return new ResponseEntity<>(userDetailsServiceImpl.getUserById(id), HttpStatus.OK);
 	    }
 }

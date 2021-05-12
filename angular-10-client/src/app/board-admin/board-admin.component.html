@@ -3,23 +3,33 @@
     <p>{{ content }}</p>
   </header>
   <div class="container">
-  <div class="card shadow mb-4">
-    <div class="card-body">
-      <table class="table table-striped">
-        <tr> <th>Id</th><th>userName</th> <th>Email</th>  <th>Role</th> </tr>
-        <tbody *ngFor="let user of users">
-        <tr >
-          <td>{{user.id}}</td>
-          <td>{{user.username}}</td>
-          <td>{{user.email}}</td>
-         <td>{{user.roles}}</td>
-         <!--  <td><a class="btn btn-danger" (click)="supprimerProduit(produit)">Supprimer</a></td>
-          <td><a class="btn btn-success" [routerLink]="['/updateProduct',produit.idProduit]">Modifier</a></td> -->
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <input placeholder="Search user" [(ngModel)]="query" (input)="searchUser()" />
+      </div>
+    </div>
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <table class="table table-striped">
+          <tr>
+            <th>Id</th>
+            <th>userName</th>
+            <th>Email</th>
+            <th>Role</th>
+          </tr>
+          <tbody *ngFor="let user of displayedUsers">
+            <tr>
+              <td>{{user.id}}</td>
+              <td>{{user.username}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.roles[0].name}}</td>
+              <td><a class="btn btn-danger" (click)="deleteUser(user.id)">Supprimer</a></td>
+              <td><a class="btn btn-success" [routerLink]="['/updateUser',user.id]">Modifier</a></td>
 
-        </tr>
-        </tbody>
-      </table>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
 </div>

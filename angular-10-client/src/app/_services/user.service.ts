@@ -34,8 +34,20 @@ export class UserService {
     return this.http.get<User[]>(API_URL + 'Users')
   }
 
-  deleteUser(user) {
-
+  getUserById(id) {
+    return this.http.get<User>(API_URL + "User/" + id)
   }
 
+  deleteUser(id) {
+    console.log(id)
+    return this.http.delete(API_URL + "deleteUser/" + id)
+  }
+
+  updateUser(id, role) {
+    return this.http.put(API_URL + "editByAdmin/" + id, {role})
+  }
+
+  updateAllUserInfo(id, user) {
+    return this.http.put(API_URL + 'edit/' + id, user)
+  }
 }
