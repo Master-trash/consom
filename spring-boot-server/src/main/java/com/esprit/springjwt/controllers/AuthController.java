@@ -31,6 +31,7 @@ import com.esprit.springjwt.repository.RoleRepository;
 import com.esprit.springjwt.repository.UserRepository;
 import com.esprit.springjwt.security.jwt.JwtUtils;
 import com.esprit.springjwt.security.services.UserDetailsImpl;
+import com.esprit.springjwt.security.services.MailService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -50,6 +51,8 @@ public class AuthController {
 
 	@Autowired
 	JwtUtils jwtUtils;
+	@Autowired
+	MailService mail;
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -78,12 +81,14 @@ public class AuthController {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: Username is already taken!"));
+			
 		}
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: Email is already in use!"));
+			
 		}
 
 		// Create new user's account
@@ -98,6 +103,7 @@ public class AuthController {
 			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			roles.add(userRole);
+			
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
@@ -105,6 +111,7 @@ public class AuthController {
 					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(adminRole);
+					
 
 					break;
 				case "mod":
@@ -123,6 +130,7 @@ public class AuthController {
 
 		user.setRoles(roles);
 		userRepository.save(user);
+		mail.sendEmail1(user.getEmail(), user.getUsername());
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}

@@ -1,24 +1,38 @@
 <div class="container" *ngIf="currentUser; else loggedOut">
-  <header class="jumbotron">
-    <h3>
-      <strong>{{ currentUser.username }}</strong> Profile
-    </h3>
-  </header>
-  <p>
-    <strong>Token:</strong>
-    {{ currentUser.accessToken.substring(0, 20) }} ...
-    {{ currentUser.accessToken.substr(currentUser.accessToken.length - 20) }}
-  </p>
-  <p>
-    <strong>Email:</strong>
-    {{ currentUser.email }}
-  </p>
-  <strong>Roles:</strong>
-  <ul>
-    <li *ngFor="let role of currentUser.roles">
-      {{ role }}
-    </li>
-  </ul>
+  <div class="content-profile-page" style='margin-top: 150px'>
+    <div class="profile-user-page card">
+      <div class="img-user-profile">
+        <img class="avatar" src="../../assets/profileimage.jfif" alt="jofpin" />
+      </div>
+      <button (click)="toggleUpdateMode()">Edit</button>
+      <div class="user-profile-data" *ngIf="!updateMode">
+        <h1>Username: {{ currentUser.username }}</h1>
+        <p>Email: {{ currentUser.email }}</p>
+        <p *ngFor="let role of currentUser.roles">Role: {{role}}</p>
+      </div>
+      <div *ngIf="updateMode">
+        <form name="form" style="width: 70%; margin: 20px auto" (ngSubmit)="onSubmit()" >
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" type="text" name="username" [(ngModel)]="userToUpdate.username" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input class="form-control" type="text" name="email" [(ngModel)]="userToUpdate.email" />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" type="password" name="password" [(ngModel)]="userToUpdate.password" />
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary btn-block" style="float: right; position: relative; margin-bottom: 40px">
+              Update
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 <ng-template #loggedOut>
